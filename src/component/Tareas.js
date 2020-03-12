@@ -1,5 +1,5 @@
 //@ts-check
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import ListGroup from 'react-bootstrap/ListGroup'
@@ -17,7 +17,15 @@ const Tareas = () => {
     const handleSubmit = () => {
         setTareas([...tareas, tarea])
         setTarea("");
+        localStorage.setItem('lista', JSON.stringify([...tareas, tarea]))
     }
+
+    useEffect(()=>{
+        const listado = JSON.parse(localStorage.getItem('lista'))
+        setTareas(listado)
+    }, [])
+
+
 
     return (
 
@@ -36,8 +44,8 @@ const Tareas = () => {
                 </InputGroup>
 
                 <ListGroup>{
-                    tareas.map(tarea => {
-                        return  <ListGroup.Item>{tarea}</ListGroup.Item>
+                    tareas.map((tarea, i) => {
+                        return  <ListGroup.Item key={i}>{tarea}</ListGroup.Item>
                     })
                 }
                 </ListGroup>
